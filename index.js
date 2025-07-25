@@ -14,11 +14,11 @@ const port = process.env.PORT || 8000;
 //middleware to parse JSON bodies
 app.use(express.json());
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: ["https://pmportfolio-ecru.vercel.app/","http://localhost:3000"],
   credentials: true, 
 }));
 app.use(cookieParser());
-// Routes connection
+// Routes connectionewz
 app.get('/',(req,res)=>{
   res.send('Welcome to the Portfolio API');
 })
