@@ -14,7 +14,7 @@ const port = process.env.PORT || 8000;
 //middleware to parse JSON bodies
 app.use(express.json());
 app.use(cors({
-  origin: ["https://pmportfolio-ecru.vercel.app/","http://localhost:3000"],
+  origin: ["https://pmportfolio-ecru.vercel.app","http://localhost:3000"],
   credentials: true, 
 }));
 app.use(cookieParser());
