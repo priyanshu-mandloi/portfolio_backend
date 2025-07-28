@@ -48,8 +48,12 @@ export const createBlog = async (req, res) => {
 export const getAllBlogs = async (req, res) => {
   try {
     const { topic, tags } = req.query;
+    const userRole = req.user?.role;
+
+    const isAdmin = userRole === 'ADMIN';
+
     const where = {
-      isPublic: true,
+      ...(isAdmin ? {} : { isPublic: true }),
       ...(topic && { topic }),
       ...(tags && { tags: { hasSome: tags.split(',').map(t => t.trim()) } }),
     };
@@ -69,6 +73,7 @@ export const getAllBlogs = async (req, res) => {
   }
 };
 
+
 // GET BLOG BY ID
 export const getBlogById = async (req, res) => {
   try {
@@ -85,9 +90,10 @@ export const getBlogById = async (req, res) => {
       return res.status(404).json({ message: 'Blog not found' });
     }
 
-    if (!blog.isPublic && req.user?.id !== blog.authorId && req.user?.role !== 'ADMIN') {
-      return res.status(403).json({ message: 'Unauthorized access' });
-    }
+if (!blog.isPublic && req.user?.id !== blog.authorId && req.user?.role !== 'ADMIN') {
+  return res.status(403).json({ message: 'Unauthorized access' });
+}
+
 
     res.json(blog);
   } catch (error) {

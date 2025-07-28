@@ -20,10 +20,10 @@ const router = express.Router();
 router.post('/create', verifyToken, isAdmin, upload.single('image'), createBlog);
 
 // Public list
-router.get('/', getAllBlogs);
+router.get('/', verifyToken, getAllBlogs);
 
 // Public single (will internally enforce privacy in controller)
-router.get('/:id', getBlogById);
+router.get('/:id', verifyToken, getBlogById);
 
 // Admin update/delete
 // router.put('/:id', verifyToken, isAdmin, updateBlog);
