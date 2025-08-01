@@ -47,7 +47,7 @@ export const createBlog = async (req, res) => {
 // GET ALL BLOGS
 export const getAllBlogs = async (req, res) => {
   try {
-    const { topic, tags } = req.query;
+    const { topic } = req.query;
     const userRole = req.user?.role;
 
     const isAdmin = userRole === 'ADMIN';
@@ -55,7 +55,6 @@ export const getAllBlogs = async (req, res) => {
     const where = {
       ...(isAdmin ? {} : { isPublic: true }),
       ...(topic && { topic }),
-      ...(tags && { tags: { hasSome: tags.split(',').map(t => t.trim()) } }),
     };
 
     const blogs = await prisma.blog.findMany({
